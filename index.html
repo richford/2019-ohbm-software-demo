@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Presentation metadata -->
+    <title>AFQ-Projects</title>
+    <meta name="description" content="This presentation describes the AFQ software suite and is designed as a software demonstration to accompany poster presentations at the 2019 OHBM conference.">
+    <meta name="author" content="Adam Richie-Halford">
+    <!-- reveal.js CSS -->
+    <link rel="stylesheet" href="css/reveal.css">
+    <!-- The id attribute must be defined for the reveal.js-menu themes panel -->
+    <link rel="stylesheet" href="css/theme/moon.css" id="theme">
+    <!-- Devicons CSS -->
+    <link rel="stylesheet" href="css/devicons.min.css">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="css/fa-solid.css">
+    <link rel="stylesheet" href="css/fa-regular.css">
+    <link rel="stylesheet" href="css/fa-brands.css">
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- Theme used for syntax highlighting of code -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- Printing and PDF exports -->
+    <script>
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    </script>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section>
+          <h2>AFQ-Suite</h2>
+          <p>Software for the preprocessing, analysis, visualization, and sharing of diffusion MRI data</p>
+          <p>Adam Richie-Halford, University of Washington,<br>Department of Physics</p>
+        </section>
+
+        <section id="tractometry" data-external="sections/tractometry.html"></section>
+        <section id="dmriprep" data-external="sections/dmriprep.html"></section>
+        <section id="pyafq" data-external="sections/pyafq.html"></section>
+        <section id="browser" data-external="sections/browser.html"></section>
+        <section id="insight" data-external="sections/insight.html"></section>
+
+        <section id="thanks">
+          <h2>Thank you!</h2>
+          <div class="row">
+            <div class="imgpenta imgcite">
+              <img style="margin: 0px;" class="logo" src="img/people/ariel.jpg" height="150">
+              <cite>
+                Ariel Rokem
+                <br>
+                UW eScience
+              </cite>
+            </div >
+            <div class="imgpenta imgcite">
+              <img style="margin: 0px;" class="logo" src="img/people/jason.jpg" height="150">
+              <cite>
+                Jason Yeatman
+                <br>
+                Stanford
+              </cite>
+            </div>
+            <div class="imgpenta imgcite">
+              <img style="margin: 0px;" class="logo" src="img/people/anisha.jpg" height="150">
+              <cite>
+                Anisha Keshavan
+                <br>
+                Child Mind Institute
+              </cite>
+            </div>
+            <div class="imgpenta imgcite">
+              <img style="margin: 0px;" class="logo" src="img/people/josh.png" height="150">
+              <cite>
+                Josh Smith
+                <br>
+                UW Chem. Eng.
+              </cite>
+            </div>
+            <div class="imgpenta imgcite">
+              <img style="margin: 0px;" class="logo" src="img/people/noah.jpg" height="150">
+              <cite>
+                Noah Simon
+                <br>
+                UW Biostatistics
+              </cite>
+            </div>
+          </div>
+          <p>
+            <a href="https://github.com/richford">
+              <i class="fab fa-github"></i>richford
+            </a>
+          </p>
+          <p>
+            <a href="mailto:richford@uw.edu">
+              <i class="fas fa-envelope"></i>richford@uw.edu
+            </a>
+          </p>
+          <p class="creativecommons">
+            <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+              <i class="fab fa-creative-commons"></i>
+              <i class="fab fa-creative-commons-by"></i>
+            </a>
+          </p>
+          <p class="smaller">
+            This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+          </p>
+          <p class="smaller">
+            Built with <a href="https://github.com/keimlink/cookiecutter-reveal.js">cookiecutter-reveal.js</a>, <a href="https://github.com/hakimel/reveal.js">reveal.js</a>, <a href="https://github.com/denehyg/reveal.js-menu">reveal.js-menu</a>, <a href="https://fontawesome.com/">Font Awesome</a> and <a href="https://github.com/vorillaz/devicons">devicons</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+      // More info about config & dependencies:
+      // - https://github.com/hakimel/reveal.js#configuration
+      // - https://github.com/hakimel/reveal.js#dependencies
+      Reveal.initialize({
+        history: true,
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full'
+        },
+        dependencies: [
+          { src: 'plugin/markdown/marked.js' },
+          { src: 'plugin/markdown/markdown.js' },
+          { src: 'plugin/math/math.js', async: true },
+          { src: 'plugin/notes/notes.js', async: true },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          // Zoom in and out with Alt+click
+          { src: 'plugin/zoom-js/zoom.js', async: true },
+          { src: 'third_party_plugins/menu.js' },
+          { src: 'third_party_plugins/external.js', condition: function() { return !!document.querySelector( '[data-external]' ); } },
+        ],
+        menu: {
+          themes: true,
+          transitions: true,
+          openButton: false,
+          loadIcons: false
+        }
+      });
+    </script>
+  </body>
+</html>
