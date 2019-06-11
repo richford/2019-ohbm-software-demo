@@ -1,9 +1,209 @@
-<section>
-  <h2>AFQ-Insight</h2>
-  <h3>Machine learning of tractometry data</h3>
+<section data-menu-title="Machine Learning">
+  <h1>AFQ-Insight</h1>
+  <h2>Machine learning of tractometry data</h2>
   <aside class="notes" data-markdown>
     <textarea data-template>
       * Put your speaker notes here.
     </textarea>
+  </aside>
+</section>
+
+<section>
+  <h2>Group structure</h2>
+  <div style="text-align: left;">
+    <ul>
+      <li>dMRI data has has group structure,
+        <script type="math/tex; mode=inline">
+          \mathbf{X} \in \mathbb{R}^{n \times p}
+        </script>
+      </li>
+    </ul>
+  </div>
+  <img class="logo" style="padding: 10px;" height="800" align="middle"
+    src="img/dmri-group-structure.svg"
+    alt="Group structure of dMRI data">
+  <aside class="notes" data-markdown>
+    - So that's why we used regression
+    - But, dMRI has group structure too
+    - We should use an algorithm that can capitalize on this information
+  </aside>
+</section>
+
+<section>
+  <h2>Regularization approaches</h2>
+  <p> Need regularization because
+  <script type="math/tex; mode=inline">p \gg n.</script>
+  </p>
+  <div class="row">
+    <div class="two-col">
+      <h6>The Lasso:</h6>
+      <div class="eqcite">
+        <script type="math/tex; mode=display">
+          \left\lVert \widehat{y} - \mathbf{X} \cdot \beta \right\lVert_2^2
+            + \lambda_2 \left\lVert \beta \right\lVert_1
+        </script>
+        <cite>
+          <a href="http://statweb.stanford.edu/~tibs/lasso/lasso.pdf">Tibshirani (1996), J. R. Statist. Soc. B</a>
+        </cite>
+      </div>
+      <br>
+      <ul>
+        <li>Global sparsity</li>
+        <li>Ignores group structure</li>
+      </ul>
+      <br>
+      <h6>The Group Lasso:</h6>
+      <div class="eqcite">
+        <script type="math/tex; mode=display">
+          \left\lVert \widehat{y} - \mathbf{X} \cdot \beta \right\lVert_2^2
+            + \lambda_1 \displaystyle \sum_\ell \sqrt{p_\ell}
+            \left\lVert \beta^{(\ell)} \right\lVert_2
+        </script>
+        <cite>
+          <a href="https://doi.org/10.1111/j.1467-9868.2005.00532.x">Yaun and Lin (2006), J. R. Statist. Soc. B</a>
+        </cite>
+      </div>
+      <br>
+      <ul>
+        <li><script type="math/tex; mode=inline">\ell</script>:
+          number of groups 
+        </li>
+        <li><script type="math/tex; mode=inline">p(\ell)</script>:
+          group size
+        </li>
+        <li>Enforces inter-group sparsity</li>
+        <li>Lacks intra-group sparsity</li>
+      </ul>
+    </div>
+    <div class="two-col">
+      <h6>Sparse Group Lasso</h6>
+      <ul>
+        <li>Minimize
+          <div class="eqcite">
+            <script type="math/tex; mode=display">
+              \left\lVert \widehat{y} - \mathbf{X} \cdot \beta \right\lVert_2^2
+              + \lambda_1 \displaystyle \sum_\ell \sqrt{p_\ell}
+              \left\lVert \beta^{(\ell)} \right\lVert_2
+              + \lambda_2 \left\lVert \beta \right\lVert_1
+            </script>
+            <cite>
+              <a href="https://doi.org/10.1080/10618600.2012.681250">Simon et al. (2013), J. Computational and Graphical Statistics</a>
+            </cite>
+          </div>
+          <br>
+        </li>
+        <li>Subsumes Lasso
+          <script type="math/tex; mode=inline">(\lambda_1 = 0)</script>
+        </li>
+        <li>And Group Lasso
+          <script type="math/tex; mode=inline">(\lambda_2 = 0)</script>
+        </li>
+        <li>Enforces both intra-group and inter-group sparsity</li>
+        <li>The price is one additional hyperparameter.</li>
+      </ul>
+    </div>
+  </div>
+  <aside class="notes" data-markdown>
+    - But we have way too many features
+    - Need to regularize
+    - Naive regularization strategies don't cut it
+    - Lasso alone yields 70% accuracy and doesn't identify correct features
+    - Having identified the group structure...
+    - Noah (SGL - 2013)
+    - Intra-group and inter-group sparsity
+    - Feed in all groups
+    - Optimize one more hyperparameter
+  </aside>
+</section>
+
+<section>
+  <h2>Hyperparameter optimization</h2>
+  <p style="text-align: left;">
+  <script type="math/tex; mode=inline">
+    \alpha_1, \alpha_2
+  </script>
+  determined using nested K-fold cross-validation (CV).
+  </p>
+  <img class="logo"
+       style="margin: 0; padding: 10px;"
+       width="1100"
+       align="middle"
+       src="img/afq-insight-nested-cross-validation.svg"
+       alt="Hyperparameter optimization through nested cross-validation">
+  <p style="text-align: left;">
+  The inner CV loop selects the best hyperparameters. The outer CV
+  evaluates the model. 
+  </p>
+  <aside class="notes" data-markdown>
+    - Inner CV loop selects the right hyperparameters
+    - Outer CV loop evaluates the model
+    - Using repeated K-fold for each loop
+    - Stratified K-fold if classification problem
+  </aside>
+</section>
+
+<section>
+  <h2>Results: Classifying ALS patients</h2>
+  <iframe style="width: 1820; height: 910;"
+          data-src="img/classification_probs.html">
+  </iframe>
+  <br>
+  Using results from Sarica et al. (2017), Accuracy: 93&plusmn;2%, ROC-AUC: 0.978&plusmn;0.006
+  <aside class="notes" data-markdown>
+  </aside>
+</section>
+
+<section>
+  <h2>Class Confusion</h2>
+  <p>Some subjects confused the model in a majority of CV splits</p>
+  <div class="imgcite">
+    <a href="https://yeatmanlab.github.io/Sarica_2017/?table[prevSort][count]=2&table[prevSort][order]=ascending&table[prevSort][key]=&table[sort][count]=2&table[sort][order]=ascending&table[sort][key]=class&table[selectedRows][subject_005]=true&table[selectedRows][subject_016]=true&table[selectedRows][subject_019]=true&table[selectedRows][subject_030]=false&table[selectedRows][subject_032]=false&table[selectedRows][subject_035]=false&table[selectedRows][subject_036]=false&plots[checkboxes][right-corticospinal]=true&plots[zoom][rd][scale]=1&plots[zoom][rd][translate][0]=-3&plots[zoom][rd][translate][1]=-21&plots[zoom][fa][scale]=2.1140360811227614&plots[zoom][fa][translate][0]=-27.244995845837778&plots[zoom][fa][translate][1]=-106.10468474511174&plots[plotKey]=fa&plots[errorType]=stderr&plots[lineOpacity]=0.0">
+      <img src="img/false_negatives.png" height="800" align="middle" alt="False negatives viewed in AFQ-Browser">
+    </a>
+    <cite>
+      Click to launch AFQ-Browser
+    </cite>
+  </div>
+  <aside class="notes" data-markdown>
+  </aside>
+</section>
+
+<section>
+  <h2>Classification Feature Importance</h2>
+  <ul>
+    <li>SGL yields sparse feature space.</li>
+    <li>Corresponds to known white matter correlates of ALS.</li>
+    <li>Primarily selects fractional anisotropy metric in the right corticospinal tract.</li>
+  </ul>
+  <img src="img/classification_beta_bupu.png" height="800" align="middle" alt="Classification regression weights">
+  <aside class="notes" data-markdown>
+  </aside>
+</section>
+
+<section>
+  <h2>Regression: predicting brain age</h2>
+  Using 77 subjects aged 6-50 from Yeatman et al. (2014)
+  <img src="img/regression_residuals.png" height="800" align="middle" alt="Classification regression weights">
+  <br>
+  Median absolute error: 3.6 years, R<sup>2</sup>~0.3
+</section>
+
+<section>
+  <h2>Regression Feature Importance</h2>
+  <p>In constract to the ALS case, the feature space is dense and non-localized.</p>
+  <div class="row">
+    <div class="col-13">
+      <img src="img/regression_beta_annotated.png" height="600" align="middle" alt="Age regression weights">
+    </div>
+    <div class="col-23 imgcite">
+      <a href="https://yeatmanlab.github.io/AFQBrowser-demo/?table[prevSort][count]=2&table[prevSort][order]=ascending&table[prevSort][key]=&table[sort][count]=5&table[sort][order]=ascending&table[sort][key]=Age&table[splitMethod]=equal-interval&plots[zoom][rd][scale]=1&plots[zoom][rd][translate][0]=0&plots[zoom][rd][translate][1]=0&plots[zoom][fa][scale]=1&plots[zoom][fa][translate][0]=0&plots[zoom][fa][translate][1]=0&plots[plotKey]=fa&plots[errorType]=stderr&plots[lineOpacity]=0&plots[brushTract]=true&plots[checkboxes][left-cingulum-cingulate]=true&plots[checkboxes][callosum-forceps-minor]=true&three[cameraPosition][x]=-0.04825662627358317&three[cameraPosition][y]=-2.117195063519432&three[cameraPosition][z]=13.370828792974232&three[rHOpacity]=0.23">
+        <img src="img/regression_tract_profiles.png" height="600" align="middle" alt="Age regression tract profiles">
+      </a>
+      <cite>
+        Click for interactive version
+      </cite>
+    </div>
+  </div>
+  <aside class="notes" data-markdown>
   </aside>
 </section>

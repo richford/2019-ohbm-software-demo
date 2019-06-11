@@ -1,9 +1,81 @@
-<section>
-  <h2>DMRIprep</h2>
-  <h3>Standardized, reproducible preprocessing</h3>
+<section data-menu-title="Preprocessing">
+  <img alt="dmriprep logo" src="./img/dmriprep_icon.svg" height="500">
+  <h1>DMRIprep</h1>
+  <h2>Standardized, reproducible preprocessing</h2>
   <aside class="notes" data-markdown>
     <textarea data-template>
       * Put your speaker notes here.
     </textarea>
   </aside>
+</section>
+
+<section>
+  <h2>Challenge</h2>
+  <p>Complexity and lack of standardization of preprocessing can induce bias in interpretation of dMRI.</p>
+  <div class="row">
+    <div class="imgcite col-23">
+      <img src="./img/pitfalls_orient_bvector.jpg" height="800" alt="Consequences of failing to reorient the b-vector in dMRI">
+      <cite>
+        Leemans and Jones (2009), Magnetic Resonance in Medicine
+      </cite>
+    </div>
+    <div class="imgcite col-13">
+      <img src="./img/pitfalls_axis_flip.png" height="800" alt="Consequences of bvec axis flip in dMRI">
+      <cite>
+        Aganj (2018), Scientific Reports
+      </cite>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Solution</h2>
+  <div class="row">
+    <div class="two-col" style="margin: auto; text-align:left;">
+      <p>Draw inspiration from FMRIprep:</p>
+      <ul>
+        <li>Robust</li>
+        <li>Reproducible</li>
+        <li>Interrogable "glass box" architecture</li>
+        <li>Implemented as a nipype workflow</li>
+      </ul>
+      <p>Extract, transform, load with three CLI programs</p>
+      <ol>
+        <li>Download data:
+          <ul>
+            <li><pre><code>dmriprep-data</code></pre></li>
+              <li>Currently supports BIDS data and the HBN study</li>
+          </ul>
+        </li>
+        <li>Run dmriprep:
+          <ul>
+            <li><pre><code>dmriprep</code></pre></li>
+              <li>BIDS-App compliant</li>
+          </ul>
+        </li>
+        <li>Upload results:
+          <ul>
+            <li><pre><code>dmriprep-upload</code></pre></li>
+              <li>to any AWS S3 bucket</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+    <div class="two-col", style="margin: auto;">
+      <img src="./img/dmriprep_workflow.jpg" height="600" alt="The dmriprep workflow">
+    </div>
+  </div>
+  <p style="text-align: left;">Running dmriprep on 60 subjects from the HBN study cost 51 USD using Kubernetes on Google Cloud Platform.</p>
+</section>
+
+<section>
+  <h2>Interrogate results using interactive web-based report</h2>
+  <div class="row">
+    <div class="col-12" style="margin: auto;">
+      <a href="http://nipy.org/dmriprep"><img src="./img/dmriprep-viewer.png" height="600" alt="The dmriprep viewer website"></a>
+    </div>
+    <div class="col-12" style="margin: auto;">
+      <a href="http://nipy.org/dmriprep/#/bucket/preafq-hbn?report=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fpreafq-hbn%2Fsub-NDARAD615WLJ%2Fdmriprep%2Freport%2Fsub-NDARAD615WLJ_acq-64dir_dwi_report.json"><img src="./img/qc_report.png" height="950" alt="The dmriprep QC report"></a>
+    </div>
+  </div>
 </section>

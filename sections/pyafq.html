@@ -1,6 +1,185 @@
+<section data-menu-title="Tractometry">
+  <h1>pyAFQ</h1>
+  <h2>Tractometry Workhorse</h2>
+  <h3><a href="https://github.com/yeatmanlab/pyAFQ">https://github.com/yeatmanlab/pyAFQ</a></h3>
+  <aside class="notes" data-markdown>
+    <textarea data-template>
+      * Put your speaker notes here.
+    </textarea>
+  </aside>
+</section>
+
 <section>
-  <h2>pyAFQ</h2>
-  <h3>Tractometry Workhorse</h3>
+  <h2>Tractometry</h2>
+  <div class="row">
+    <div class="col-23">
+      <div class="imgcite">
+        <img src="img/afq_pipeline.png"
+             width="1800"
+             style="display: block; margin-left: auto; margin-right: auto;"
+             align="middle"
+             alt="AFQ Pipeline">
+        <cite>
+          <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0049790">Yeatman et al. PLoS ONE 7(11)</a>
+        </cite>
+      </div>
+      <p style="text-align: left;">
+        Automated Fiber Quantification (AFQ) identifies fiber tracts in a living
+        individual's brain. It creates tract profiles of diffusion metrics
+        along canonical white matter tracts.
+      </p>
+    </div>
+    <div class="col-13">
+      <img align="center"
+           src="img/pyafq-segmentation-all-tracts-1.gif"
+           alt="AFQ segmentation"
+           width="375">
+      <img align="center"
+           src="img/pyafq-segmentation-cst.gif"
+           alt="AFQ segmentation highlighting the corticospinal tract"
+           width="375">
+    </div>
+  </div>
+  <aside class="notes" data-markdown>
+    - (1) Whole brain tractography is initiated from each white matter voxel with fractional anisotropy (FA) > 0.3.
+    - (2) Fibers that pass through two waypoint regions of interest (ROIs) become candidates for the left IFOF fiber group.
+    - (3) Each candidate fiber is then scored based on its similarity to a standard fiber tract probability map. Fibers with high probability scores are retained.
+    - (4) Fibers tracts are represented as a 3-dimensional Gaussian distribution and outlier fibers that deviate substantially from the mean position of the tract are removed.
+    - (5) The fiber group is clipped to the central portion that spans between the two defining ROIs.
+    - (6) The fiber group core is calculated by resampling each fiber into 100 equidistant nodes and calculating the mean location of each node. Diffusion measurements are calculated at each node by taking a weighted average of the FA measurements of each individual fibers diffusion properties at that node. Weights are determined based on the Mahalanobis distance of each fiber node from the fiber core.
+  </aside>
+</section>
+
+<section>
+  <h2>Tractography</h2>
+  <div class="row">
+    <div class="col-13">
+      <img align="center"
+           height="600"
+           src="./img/axial_slice.png"
+           alt="Axial slice of human brain">
+    </div>
+    <div class="col-13">
+      <div class="fragment">
+        <img src="./img/d2t-bkgrnd.png"
+             style="z-index: 1; margin-bottom: 0;"
+             align="center"
+             height="600"
+             alt="Closeup of axial slice">
+      </div>
+      <div class="fragment fade-in">
+        <img src="./img/tensor_ellipsoids.png"
+             style="background:none; border:none; box-shadow:none; opacity:0.5; filter:alpha(opacity=50); z-index: 2; position: relative; top: -615; margin-top: 0; margin-bottom: 0"
+             align="center"
+             height="600"
+             alt="Tensor ellipsoids from tractography">
+      </div>
+      <div class="fragment fade-in">
+        <img src="./img/tensor_ellipsoids_with_arrow.png"
+             style="background:none; border:none; box-shadow:none; opacity:0.6; filter:alpha(opacity=60); z-index: 3; position: relative; top: -1225; margin-top: 0; margin-bottom: 0"
+             align="center"
+             height="600"
+             alt="Tensor ellipsoids from tractography with arrow">
+      </div>
+    </div>
+    <div class="col-13 fragment">
+      <img align="center" height="600" src="./img/cc_tube_movie.gif" alt="Tractography of the corpus callosum">
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Segmentation using Waypoint ROIs</h2>
+  <img align="center" width="1800" src="./img/afq_pipeline_1_waypoint_roi.png" alt="Segmentation using waypoint ROIs">
+  <div style="text-align: left;">
+    <ul>
+      <li>Fibers are assigned to a fiber group if they pass through two waypoint ROIs that define the fascicle.</li>
+      <li>ROIs drawn on group-average DTI data in MNI space</li>
+    </ul>
+  </div>
+  <aside class="notes" data-markdown>
+    <textarea data-template>
+      * Put your speaker notes here.
+    </textarea>
+  </aside>
+</section>
+
+<section>
+  <h2>Resolve conflict using fiber probability maps</h2>
+  <img align="center" width="1800" src="./img/afq_pipeline_2_prob_maps.png" alt="Fiber tract refinement using fiber probability maps">
+  <div style="text-align: left;">
+    <ul>
+      <li>Discard fibers that travel through low probability voxels.</li>
+      <li>Fiber tract probability maps created (by Hua et al.) by manually segmenting and coregistering each fiber group for 28 healthy adults.</li>
+    </ul>
+  </div>
+  <aside class="notes" data-markdown>
+    <textarea data-template>
+      * Put your speaker notes here.
+    </textarea>
+  </aside>
+</section>
+
+<section>
+  <h2>Remove outliers</h2>
+  <div class="row">
+    <div class="col-23" style="margin: auto; text-align: left;">
+      <p>Remove outlier tracts based on</p>
+      <ul>
+        <li>distance from centroid,</li>
+        <li>deviation from mean fiber length,</li>
+      </ul>
+      <p>using Mahalanobis distance (i.e. z-score for a multivariate Gaussian distribution)</p>
+    </div>
+    <div class="col-13">
+      <img align="center" height="950" src="./img/afq_pipeline_3_outliers.png" alt="Removal of outliers">
+    </div>
+  </div>
+  <aside class="notes" data-markdown>
+    <textarea data-template>
+      * Put your speaker notes here.
+    </textarea>
+  </aside>
+</section>
+
+<section>
+  <h2>Define centroid and calculate tract profiles</h2>
+  <img align="center" width="1300" src="./img/afq_pipeline_4_centroid.png" alt="Defining the fiber tract centroid">
+  <img align="center" width="1300" src="./img/afq_pipeline_5_tract_profiles.png" alt="Calculate tract profiles">
+  <aside class="notes" data-markdown>
+    <textarea data-template>
+      * Put your speaker notes here.
+    </textarea>
+  </aside>
+</section>
+
+<section>
+  <h2>Tidy data</h2>
+  <div class="row">
+    <div class="col-12 imgcite" style="margin: auto;">
+      <p>pyAFQ segmentation<br>with 20 canonical bundles</p>
+      <img align="center"
+           src="img/pyafq-segmentation-all-tracts-1.gif"
+           alt="AFQ segmentation"
+           width="450">
+    </div>
+    <div class="col-12" style="margin: auto;">
+      <p>pyAFQ segmentation<br>with highlighted CST</p>
+      <img align="center"
+           src="img/pyafq-segmentation-cst.gif"
+           alt="AFQ segmentation highlighting the corticospinal tract"
+           width="450">
+    </div>
+  </div>
+  <div style="text-align: left;">
+    <p>pyAFQ represents massive, neuroanotomically-motivated feature engineering </p>
+    <p>pyAFQ yields:</p>
+    <ul>
+      <li>Segmentation of whole-brain tractography into fiber bundles</li>
+      <li>Organization of diffusion metrics into tidy table</li>
+      <li>One could open the results in pandas or excel.</li>
+    </ul>
+  </div>
   <aside class="notes" data-markdown>
     <textarea data-template>
       * Put your speaker notes here.

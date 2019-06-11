@@ -1,8 +1,189 @@
-<section>
-  <h2>White matter tractometry</h2>
+<section data-menu-title="Introduction">
+  <h1>Diffusion MRI (dMRI)</h1>
   <aside class="notes" data-markdown>
     <textarea data-template>
       * Put your speaker notes here.
     </textarea>
   </aside>
+</section>
+
+<section>
+  <h2>Normal behavior is supported by brain networks</h2>
+  <div class="imgcite">
+    <img src="./img/OldenDays.png" height="800">
+    <cite>
+      from <a href="https://www.ncbi.nlm.nih.gov/pubmed/16141282">Catani and ffytche (2015)</a>
+    </cite>
+  </div>
+  <aside class="notes" data-markdown>
+    - Known since the "classical associationist era of neuroscience (~1850s)
+    - Conceived of the brain as composed of localized specialized areas
+    - Connected by conducting fibers (white matter)
+    - Image is of Theodore Maynert's 1870s classification of white matter tracts
+    - All derived from human post mortem dissections
+  </aside>
+</section>
+
+<section>
+  <h2>Studying brain networks</h2>
+  <div class="row">
+    <div class="col-13 imgcite" style="margin: auto;">
+      <img src="./img/tract_groups.png" height="800">
+      <cite>
+        from <a href="https://www.ncbi.nlm.nih.gov/pubmed/16141282">Catani and ffytche (2015)</a>
+      </cite>
+    </div>
+    <div class="col-23" style="margin: auto; text-align: left;">
+      <p>Not just static cables!</p>
+      <ul>
+        <li>Brain connections develop and mature with age</li>
+        <li>Individual differences account for differences in behaviour</li>
+        <li>Adapt and change with learning</li>
+        <li>Reviewed in <a href="http://jov.arvojournals.org/article.aspx?articleid=2603187"> Rokem et al. (2017), Journal of Vision</a></li>
+      </ul>
+      <p class="fragment">Diffusion MRI measures the physical properties of these connections </p>
+      <div class="row fragment">
+        <div class="col-12" style="margin: auto;">
+          <img src="./img/optic-radiation-postmortem.png" height="550" >
+        </div>
+        <div class="col-12" style="margin: auto;">
+          <img src="./img/nerve-fiber.png" height="550" >
+        </div>
+      </div>
+    </div>
+  </div>
+  <aside class="notes" data-markdown>
+    - Conceived of the brain as composed of localized specialized areas
+    - Connected by conducting fibers (white matter)
+    - Image is of Theodore Maynert's 1870s classification of white matter tracts
+    - All derived from human post mortem dissections
+  </aside>
+</section>
+
+<section>
+  <h2>Diffusion MRI</h2>
+  <div class="row fragment">
+    <div class="col-13">
+      <p>Isotropic diffusion</p>
+      <div style="flex-grow: 1;">
+        <img src="./img/diffusion-isotropic.gif" width="600" alt="Isotropic diffusion">
+      </div>
+    </div>
+    <div class="imgcite col-13">
+      <p>Anisotropic diffusion</p>
+      <div style="flex-grow: 1; display: flex; align-items: center; justify-content: center;">
+        <img src="./img/diffusion-anisotropic.gif" width="600" alt="Anisotropic diffusion">
+      </div>
+      <cite>
+        <a href="http://jov.arvojournals.org/article.aspx?articleid=2603187">Rokem et al. (2017), Journal of Vision</a>
+        <br>
+        <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0123272">Rokem et al. (2015), PLoS One</a>
+      </cite>
+    </div>
+    <div class="imgcite col-13">
+      <p>DWI with varying b-vectors</p>
+      <img src="img/dMRI-signal-movie.gif"
+           width="600"
+           alt="Diffusion MRI with varying B vectors">
+      <cite>
+        <a href="http://jov.arvojournals.org/article.aspx?articleid=2603187">Rokem et al. (2017), Journal of Vision</a>
+        <br>
+        <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0123272">Rokem et al. (2015), PLoS One</a>
+      </cite>
+    </div>
+  </div>
+  <aside class="notes" data-markdown>
+    - Water molecules in our body undergo random motion
+    - In physics, we call this "Brownian motion" or simply "diffusion"
+    - MR images can be made sensitive to this motion
+    - Left side: isotropic (bathtub)
+    - Right side: anisotropic (straw)
+    - Imagine the inverse problem:
+    - Don't know if you're looking at a bathtub or a straw
+    - By looking at several images with various directions and diffusion scales
+    - We can reconstruct white matter tracts
+    - Typical DWI resolution: 2mm. Axom diameter 1-30 microns. Celery stick analogy.
+  </aside>
+</section>
+
+<!--<section>
+  <h2>Diffusion MRI</h2>
+  <img src="./img/up-and-down-arrow.png" height=200 style="position: absolute; left: 200px; top: 200px;">
+  <img src="./img/dmri2.png" height="500">
+</section>
+
+<section>
+  <h2>Diffusion MRI</h2>
+  <img src="./img/right-and-left-arrow.png" height=40 style="position: absolute; left: 0px; top: 300px;">
+  <img src="./img/dmri1.png" height="500">
+</section>-->
+
+<section>
+  <h2>Diffusion Metrics</h2>
+  <div class="imgcite">
+    <img src="img/tensor-stats3.png" width="1500" style="margin-top: 0; margin-bottom: 0;">
+    <div class="row" style="width: 1500px; margin: auto;">
+      <div class="col-13">
+        <p class="smaller" style="margin-top: 0; margin-bottom: 0">Mean diffusivity</p>
+        <img src="img/md-scale.png" height="60">
+        <script type="math/tex; mode=inline">
+          \frac{\mu m^2}{msec}
+        </script>
+      </div>
+      <div class="col-13">
+        <p class="smaller" style="margin-top: 0; margin-bottom: 0">Fractional anisotropy</p>
+        <img align="center"
+             src="img/diffusion-fa.gif"
+             alt="Fractional Anisotropy"
+             width="200">
+      </div>
+      <div class="col-13">
+        <p class="smaller" style="margin-top: 0; margin-bottom: 0">Principal diffusion direction</p>
+        <img src="img/pdd_axes.png" height="150" >
+      </div>
+    </div>
+    <cite>
+      <a href="http://jov.arvojournals.org/article.aspx?articleid=2603187">Rokem et al. (2017), Journal of Vision</a>
+      <br>
+      <a href="http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0123272">Rokem et al. (2015), PLoS One</a>
+    </cite>
+  </div>
+</section>
+
+<section>
+  <h2>From diffusion to tracts</h2>
+  <div class="row">
+    <div class="col-13">
+      <img align="center"
+           height="600"
+           src="./img/axial_slice.png"
+           alt="Axial slice of human brain">
+    </div>
+    <div class="col-13">
+      <div class="fragment">
+        <img src="./img/d2t-bkgrnd.png"
+             style="z-index: 1; margin-bottom: 0;"
+             align="center"
+             height="600"
+             alt="Closeup of axial slice">
+      </div>
+      <div class="fragment fade-in">
+        <img src="./img/tensor_ellipsoids.png"
+             style="background:none; border:none; box-shadow:none; opacity:0.5; filter:alpha(opacity=50); z-index: 2; position: relative; top: -615; margin-top: 0; margin-bottom: 0"
+             align="center"
+             height="600"
+             alt="Tensor ellipsoids from tractography">
+      </div>
+      <div class="fragment fade-in">
+        <img src="./img/tensor_ellipsoids_with_arrow.png"
+             style="background:none; border:none; box-shadow:none; opacity:0.6; filter:alpha(opacity=60); z-index: 3; position: relative; top: -1225; margin-top: 0; margin-bottom: 0"
+             align="center"
+             height="600"
+             alt="Tensor ellipsoids from tractography with arrow">
+      </div>
+    </div>
+    <div class="col-13 fragment">
+      <img align="center" height="600" src="./img/cc_tube_movie.gif" alt="Tractography of the corpus callosum">
+    </div>
+  </div>
 </section>
